@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+       default-lazy-init="false">
+
+    <!--方式一：开启注解aop-->
+    <aop:aspectj-autoproxy />
+
+    <!--方式二：xml配置 -->
+    <!--
+    <aop:config proxy-target-class="false">
+        &lt;!&ndash;aop:pointcut在此处定义的pointcut是全局的pointcut，可以供所有的aspect使用&ndash;&gt;
+        &lt;!&ndash;id：表示这个pointcut的名称，以方便使用&ndash;&gt;
+        <aop:pointcut id="addpointcut" expression="execution(public * com.dongzhic.service..*.add(..))"/>
+        <aop:pointcut id="delpointcut" expression="execution(public * com.dongzhic.service..*.del(..))"/>
+        <aop:pointcut id="myMethods" expression="execution(public * com.dongzhic.service..*.*(..))"/>
+
+        &lt;!&ndash;advisor必须在aspect之前，要不然有xml约束报错&ndash;&gt;
+        <aop:advisor advice-ref="beforeAdviceBean" order="2" pointcut-ref="myMethods" />
+
+        <aop:aspect id="aspect1" ref="aspectXml1" order="0">
+            &lt;!&ndash;
+                <aop:declare-parents types-matching="com.dongzhic.service.MyServiceImpl"
+                                 implement-interface="com.dongzhic.aop.IntroductionIntf"
+                                 delegate-ref="myintroduction" />
+                id：表示这个pointcut的名称，以方便使用
+            &ndash;&gt;
+
+            <aop:pointcut id="myMethod2" expression="execution(public * com.dongzhic.service..*.*(..)) and"/>
+            <aop:before method="before" pointcut-ref="myMethods" />
+            <aop:after method="after" pointcut-ref="myMethod2" />
+            &lt;!&ndash; 后置通知 returning="returnVal" 定义返回值，必须与类中声明的名称一样 &ndash;&gt;
+            <aop:after-returning method="afterReturning" returning="returnVal"
+                                 pointcut="execution(public * com.dongzhic.service..*.*(..))" />
+            &lt;!&ndash;
+                异常通知，throwing="throwable" 指定异常通知错误信息变量，必须与类中声明的名称一样
+                <aop:after-throwing method="afterthrowing" throwing="e" pointcut-ref="myMethods" />
+            &ndash;&gt;
+            <aop:around method="around" pointcut-ref="myMethod2" />
+        </aop:aspect>
+    </aop:config>
+    -->
+</beans>
