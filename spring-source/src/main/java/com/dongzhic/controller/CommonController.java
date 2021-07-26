@@ -66,16 +66,6 @@ public class CommonController {
         return "xx";
     }
 
-    /*
-    *
-        Host                    localhost:8080  
-        Accept                  text/html,application/xhtml+xml,application/xml;q=0.9  
-        Accept-Language         fr,en-gb;q=0.7,en;q=0.3  
-        Accept-Encoding         gzip,deflate  
-        Accept-Charset          ISO-8859-1,utf-8;q=0.7,*;q=0.7  
-        Keep-Alive              300
-    *
-    * */
     @RequestMapping("/annotationParamTest")
     public String annotationParamTest(@CookieValue Cookie cookie,
                                       @RequestHeader("Host") String host,

@@ -47,7 +47,7 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
-    <context:property-placeholder location="classpath:config/core/core.properties"/>
+<!--    <context:property-placeholder location="classpath:config/core/core.properties"/>-->
     <!--默认的HandlerMapping和HandlerAdapter配置形式-->
     <!-- 解决springMVC响应数据乱码   text/plain就是响应的时候原样返回数据-->
     <!--

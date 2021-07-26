@@ -1,5 +1,7 @@
 package com.dongzhic.mvc;
 
+import com.dongzhic.filter.CorsFilter;
+import com.dongzhic.filter.MyFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
@@ -26,6 +28,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Filter[] getServletFilters() {
-        return super.getServletFilters();
+        MyFilter filter = new MyFilter();
+        CorsFilter corsFilter = new CorsFilter();
+        return new Filter[]{filter, corsFilter};
     }
 }

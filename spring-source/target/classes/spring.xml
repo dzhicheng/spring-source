@@ -20,51 +20,61 @@
     <!--传统标签-->
     <bean class="com.dongzhic.bean.Student" id="student" />
 
-
-<!--    <bean class="com.dongzhic.bean.InitMethodBean" id="initMethodBean" init-method="afterInitMethod" />-->
-
-
     <!--这两个BeanDefinition会在实例过程中合并成一个-->
-<!--    <bean id="parent" class="com.dongzhic.bean.Parent" abstract="true">-->
-<!--        <property name="username" value="parent name"/>-->
-<!--    </bean>-->
-<!--    <bean id="son" class="com.dongzhic.bean.Son" parent="parent">-->
-<!--        <property name="age" value="26"/>-->
-<!--    </bean>-->
+    <bean id="parent" class="com.dongzhic.bean.Parent" abstract="true">
+        <property name="username" value="parent name"/>
+    </bean>
+    <bean id="son" class="com.dongzhic.bean.Son" parent="parent">
+        <property name="age" value="26"/>
+    </bean>
+
+    <bean class="com.dongzhic.service.impl.AccountServiceImpl" id="accountService"
+          autowire-candidate="false" scope="singleton" primary="true"/>
+
+    <bean id="factoryBean" class="com.dongzhic.bean.FactoryBean" >
+        <description>com.dongzhic.bean.FactoryBean</description>
+        <meta key="key1" value="value1" />
+    </bean>
+
+    <bean class="com.dongzhic.bean.InitMethodBean" id="initMethodBean" init-method="afterInitMethod" />
 
     <!--factory-bean、factory-method实例化自己完成，不交给spring-->
-<!--    <bean id="propertyClass" class="com.dongzhic.bean.PropertyClass"-->
-<!--          init-method="initMethod" destroy-method="destroyMethod"-->
-<!--          factory-bean="factoryBean" factory-method="factoryMethod"/>-->
+    <bean id="propertyClass" class="com.dongzhic.bean.PropertyClass"
+          init-method="initMethod" destroy-method="destroyMethod"
+          factory-bean="factoryBean" factory-method="factoryMethod"/>
 
-<!--    <bean id="factoryBean" class="com.dongzhic.bean.FactoryBean" >-->
-<!--        <description>com.dongzhic.bean.FactoryBean</description>-->
-<!--        <meta key="key1" value="value1" />-->
-<!--    </bean>-->
 
-<!--    &lt;!&ndash;lookup-method标签使用&ndash;&gt;-->
-<!--    <bean id="woman" class="com.dongzhic.bean.Woman" lazy-init="false" />-->
-<!--    <bean id="people" class="com.dongzhic.bean.ShowSexClass" >-->
-<!--        <lookup-method name="getPeople" bean="woman"></lookup-method>-->
-<!--    </bean>-->
 
-<!--    &lt;!&ndash;replaced-method标签使用&ndash;&gt;-->
-<!--    <bean id="replaceClass" class="com.dongzhic.bean.ReplaceClass" lazy-init="false" />-->
-<!--    <bean id="originClass" class="com.dongzhic.bean.OriginClass">-->
-<!--        <replaced-method name="method" replacer="replaceClass">-->
-<!--            &lt;!&ndash;方法可能出现重载的情况，要根据类型和方法名找方法&ndash;&gt;-->
-<!--            <arg-type match="java.lang.String" />-->
-<!--        </replaced-method>-->
-<!--    </bean>-->
+    <!--lookup-method标签使用-->
+    <bean id="woman" class="com.dongzhic.bean.Woman" lazy-init="false" />
+    <bean id="people" class="com.dongzhic.bean.ShowSexClass" >
+        <lookup-method name="getPeople" bean="woman"></lookup-method>
+    </bean>
 
-<!--    <bean id="constructor" class="com.dongzhic.bean.ConstructorArgBean" >-->
-<!--        &lt;!&ndash;通过构造函数注入&ndash;&gt;-->
-<!--        <constructor-arg name="username" value="Jack" index="0" type="java.lang.String" />-->
-<!--        <constructor-arg name="password" value="123" index="1" type="java.lang.String" />-->
-<!--    </bean>-->
+    <!--replaced-method标签使用-->
+    <bean id="replaceClass" class="com.dongzhic.bean.ReplaceClass" lazy-init="false" />
+    <bean id="originClass" class="com.dongzhic.bean.OriginClass">
+        <replaced-method name="method" replacer="replaceClass">
+            <!--方法可能出现重载的情况，要根据类型和方法名找方法-->
+            <arg-type match="java.lang.String" />
+        </replaced-method>
+    </bean>
 
-    <!--通过属性注入-->
-    <!--<property name="username" value="tomcat" />-->
+    <bean id="constructor" class="com.dongzhic.bean.ConstructorArgBean" >
+        <!--通过构造函数注入-->
+        <constructor-arg name="username" value="Jack" index="0" type="java.lang.String" />
+        <constructor-arg name="password" value="123" index="1" type="java.lang.String" />
+    </bean>
+
+    <!--@Value()-->
+    <bean class="com.dongzhic.bean.PropertyBean" id="propertyBean">
+        <property name="username" value="Jack"/>
+        <property name="password" value="123"/>
+        <!--<aop:scoped-proxy/>-->
+    </bean>
+
+    <bean id="businessObject" class="org.springframework.aop.framework.ProxyFactoryBean">
+    </bean>
 
 
 

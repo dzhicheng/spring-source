@@ -4,14 +4,14 @@ import com.dongzhic.pojo.ConsultConfigArea;
 import com.dongzhic.pojo.ZgGoods;
 import com.dongzhic.pojo.ZgTicket;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Mapper
 public interface CommonMapper {
 
     @Select("select * from consult_configarea where areaCode=#{areaCode}")

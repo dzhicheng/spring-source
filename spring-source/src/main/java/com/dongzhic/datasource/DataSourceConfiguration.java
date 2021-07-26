@@ -3,22 +3,29 @@ package com.dongzhic.datasource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.awt.color.ProfileDataException;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @PropertySource类似于
+ * <bean id="propertyConfigurerForProject" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+ *      <property name="order" value="1" />
+ *      <property name="ignoreUnresolvablePlaceholders" value="true" />
+ *      <property name="location">
+ *         <value>classpath:config/core/core.properties</value>
+ *      </property>
+ * </bean>
  * @Author dongzhic
  * @Date 7/15/21 11:10 AM
  */
-@Component
+@Configuration
 @PropertySource("classpath:config/core/core.properties")
 public class DataSourceConfiguration {
 
@@ -39,8 +46,8 @@ public class DataSourceConfiguration {
 
     /**
      * @Bean注解导致属性没有生效
-     * @return
      */
+//    @Bean
     public DataSource comboPooledDataSource () {
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
         try {
@@ -69,10 +76,29 @@ public class DataSourceConfiguration {
     @Bean
     public DataSource dynamicDataSource () {
 
-        ComboPooledDataSource comboPooledDataSource = (ComboPooledDataSource) comboPooledDataSource();
+        ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+        try {
+            comboPooledDataSource.setDriverClass(driverClass);
+            comboPooledDataSource.setJdbcUrl(jdbcUrl);
+            comboPooledDataSource.setUser(user);
+            comboPooledDataSource.setPassword(password);
+            comboPooledDataSource.setMinPoolSize(10);
+            comboPooledDataSource.setMaxPoolSize(100);
+            comboPooledDataSource.setMaxIdleTime(1800);
+            comboPooledDataSource.setAcquireIncrement(3);
+            comboPooledDataSource.setMaxStatements(1000);
+            comboPooledDataSource.setInitialPoolSize(10);
+            comboPooledDataSource.setIdleConnectionTestPeriod(60);
+            comboPooledDataSource.setAcquireRetryAttempts(30);
+            comboPooledDataSource.setBreakAfterAcquireFailure(false);
+            comboPooledDataSource.setTestConnectionOnCheckout(false);
+            comboPooledDataSource.setAcquireRetryDelay(100);
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
 
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("ds1" , comboPooledDataSource);
+        targetDataSources.put("ds1",comboPooledDataSource);
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         dynamicDataSource.setTargetDataSources(targetDataSources);

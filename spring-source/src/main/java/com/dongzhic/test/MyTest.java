@@ -23,6 +23,12 @@ public class MyTest {
     private OriginClass originClass;
 
     @Test
+    public void testBean () {
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ComponentScanOneBean.class);
+        applicationContext.getBean("student");
+    }
+
+    @Test
     public void replacedMethod () {
         originClass.method("xx");
         originClass.method(new ArrayList<String>());

@@ -54,5 +54,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         super.configureHandlerExceptionResolvers(exceptionResolvers);
     }
 
+    /**
+     *  解决跨域方式二：Interceptor
+     * @param registry
+     */
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/user/**")
+//                // 允许所有头
+//                .allowedOrigins("*")
+//                .allowCredentials(true)
+//                .allowedMethods("GET", "POST", "DELETE", "PUT","PATCH")
+//                .maxAge(3600);
+//    }
+
 
 }
