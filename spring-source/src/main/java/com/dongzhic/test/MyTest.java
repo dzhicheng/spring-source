@@ -2,12 +2,21 @@ package com.dongzhic.test;
 
 import com.dongzhic.bean.*;
 import com.dongzhic.factory.bean.FactoryBeanDemo;
+import org.apache.jasper.runtime.ExceptionUtils;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LoggerFactoryBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureTask;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author dongzhic
@@ -15,12 +24,47 @@ import java.util.ArrayList;
  */
 public class MyTest {
 
+    private Logger logger = LoggerFactory.getLogger(MyTest.class);
+
     private static ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 
     @Autowired
     private ShowSexClass showSexClass;
     @Autowired
     private OriginClass originClass;
+
+    @Test
+    public void testThreadPoolExecutor () {
+
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(1);
+        executor.initialize();
+
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            ListenableFuture<Boolean> asyncResult = executor.submitListenable(() -> {
+               // 休息5毫秒，模拟执行
+                try {
+                    TimeUnit.MILLISECONDS.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            });
+
+            asyncResult.addCallback(data -> {
+                // 休息3毫秒模拟获取到执行结果后的操作
+                try {
+                    TimeUnit.MILLISECONDS.sleep(3);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, ex -> logger.info("**异常信息**：{}"));
+
+        }
+        System.out.println(String.format("总耗时：%s", System.currentTimeMillis() - start));
+    }
 
     @Test
     public void testBean () {
@@ -55,10 +99,10 @@ public class MyTest {
         Student student = (Student) applicationContext.getBean("student");
         System.out.println(student.getName());
 
-        applicationContext.setAllowBeanDefinitionOverriding(false);
-        // 允许循环依赖
-        applicationContext.setAllowCircularReferences(true);
-        applicationContext.refresh();
+//        applicationContext.setAllowBeanDefinitionOverriding(false);
+//        // 允许循环依赖
+//        applicationContext.setAllowCircularReferences(true);
+//        applicationContext.refresh();
 
     }
 

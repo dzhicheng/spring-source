@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 /**
  * 注解方式引入事务
  * 替代spring-tx.xml配置
+ * @EnableTransactionManagement 显示支持注解功能
  * @Author dongzhic
  * @Date 7/15/21 7:52 AM
  */
@@ -31,7 +32,7 @@ public class EnableTransactionManagementBean {
     }
 
     /*
-     * 这样也可以
+     * 定义事务管理平台
      * */
     @Bean
     public PlatformTransactionManager annotationDrivenTransactionManager(DataSource dataSource) {

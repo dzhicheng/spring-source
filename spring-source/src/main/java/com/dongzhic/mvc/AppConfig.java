@@ -14,7 +14,7 @@ import java.util.List;
  * 注解替换spring-mvc.xml配置
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Autowired

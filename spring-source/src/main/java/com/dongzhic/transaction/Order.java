@@ -2,6 +2,7 @@ package com.dongzhic.transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -17,7 +18,7 @@ public class Order {
     @Autowired
     private Order order;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void queryOrder () {
 
         // addOrder的事务注解不生效，没有走切面，没有用代理实例

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * @Author dongzhic
  * @Date 6/26/21 12:47 AM
  */
-//@Service
+@Service
 public class Student {
 
     private String name = "zhicheng";

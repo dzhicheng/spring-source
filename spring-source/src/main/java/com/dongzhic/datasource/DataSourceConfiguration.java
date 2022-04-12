@@ -45,6 +45,7 @@ public class DataSourceConfiguration {
     Environment environment;
 
     /**
+     * 定义数据源
      * @Bean注解导致属性没有生效
      */
 //    @Bean
